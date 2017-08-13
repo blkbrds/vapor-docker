@@ -1,0 +1,54 @@
+FROM ubuntu:16.04
+LABEL name=vapor version=1.0.9-xenial
+MAINTAINER dao.nguyen@asiantech.vn
+
+RUN apt-get update && \
+    apt-get install --no-install-recommends -y \
+        libicu-dev \
+        libxml2 \
+        libcurl3 \
+        libbsd0 && \
+    apt-get clean
+
+# Check if we should install mysql header files to the container (Defualt: false)
+ARG INSTALL_MYSQL=false
+RUN if [ ${INSTALL_MYSQL} = true ]; then \
+    apt-get update && \
+    apt-get install --no-install-recommends -y \
+        libmysqlclient20 \
+        libmysqlclient-dev && \
+    apt-get clean \
+;fi
+
+# Check if we should install postgres header files to the container (Defualt: false)
+ARG INSTALL_PGSQL=false
+RUN if [ ${INSTALL_PGSQL} = true ]; then \
+    apt-get update && \
+    apt-get install --no-install-recommends -y \
+        libpq-dev && \
+    apt-get clean \
+;fi
+
+# Check if we should install sqlite header files to the container (Defualt: false)
+ARG INSTALL_SQLITE=false
+RUN if [ ${INSTALL_SQLITE} = true ]; then \
+    apt-get update && \
+    apt-get install --no-install-recommends -y \
+        libsqlite3-dev && \
+    apt-get clean \
+;fi
+
+# Set work dir to /vapor
+WORKDIR /vapor
+
+ADD lib/libswiftCore.so /usr/lib
+ADD lib/libFoundation.so /usr/lib
+ADD lib/libswiftGlibc.so /usr/lib
+ADD lib/libdispatch.so /usr/lib
+
+EXPOSE 8080
+
+ENTRYPOINT ["/bin/sh", "-c"]
+
+# This image contains dependences only. No `fetch`, `build` or `run` command were actived.
+CMD ["echo", "Vapor production image bases on Swift 3.1 s_hared o_bjects"]

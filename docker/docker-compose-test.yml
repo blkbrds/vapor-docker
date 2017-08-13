@@ -1,0 +1,4 @@
+version: '2'
+services:
+    cftr-api-dev:
+        command: ["vapor build --release --verbose && vapor test --release --verbose"]

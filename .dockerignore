@@ -1,0 +1,18 @@
+# Put this file in your app root directory.
+deploy
+docker
+docs
+Packages
+reports
+scripts
+spec
+.gitignore
+.ruby-version
+.swiftlint.yml
+.travis.yml
+Brewfile
+Capfile
+Gemfile
+Gemfile.lock
+Procfile
+README.md

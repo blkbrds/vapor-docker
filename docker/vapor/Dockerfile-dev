@@ -1,0 +1,41 @@
+FROM vapor/vapor:1.0.9-xenial
+LABEL name=vapor version=1.0.9-xenial
+MAINTAINER dao.nguyen@asiantech.vn
+
+# Check if we should install mysql header files to the container (Defualt: false)
+ARG INSTALL_MYSQL=false
+RUN if [ ${INSTALL_MYSQL} = true ]; then \
+    apt-get update && \
+    apt-get install --no-install-recommends -y \
+        libmysqlclient20 \
+        libmysqlclient-dev && \
+    apt-get clean \
+;fi
+
+# Check if we should install postgres header files to the container (Defualt: false)
+ARG INSTALL_PGSQL=false
+RUN if [ ${INSTALL_PGSQL} = true ]; then \
+    apt-get update && \
+    apt-get install --no-install-recommends -y \
+        libpq-dev && \
+    apt-get clean \
+;fi
+
+# Check if we should install sqlite header files to the container (Defualt: false)
+ARG INSTALL_SQLITE=false
+RUN if [ ${INSTALL_SQLITE} = true ]; then \
+    apt-get update && \
+    apt-get install --no-install-recommends -y \
+        libsqlite3-dev && \
+    apt-get clean \
+;fi
+
+# Set work dir to /vapor
+WORKDIR /vapor
+
+EXPOSE 8080
+
+ENTRYPOINT ["/bin/sh", "-c"]
+
+# This image contains dependences only. No `fetch`, `build` or `run` command were actived.
+CMD ["echo", "Vapor development image bases on Swift 3.1"]

@@ -1,0 +1,36 @@
+version: '2'
+services:
+    vapor-pro:
+        build:
+            context: ./vapor/
+            dockerfile: ./Dockerfile-pro
+            args:
+                - INSTALL_MYSQL=true
+        image: vapor-pro
+        container_name: vapor-pro
+
+    cftr-api:
+        build:
+            context: ./../
+            dockerfile: ./docker/Dockerfile
+        image: cftr-api
+        container_name: cftr-api
+        depends_on:
+            - cftr-api-dev
+            - vapor-pro
+            - mysql
+        links:
+            - mysql:mysql
+        environment:
+            - MYSQL_HOST=mysql
+            - MYSQL_DATABASE=CFTR
+            - MYSQL_USER=vapor
+            - MYSQL_PASSWORD=vapor@pass
+            - MYSQL_PORT=3306
+        expose:
+            - "8080"
+        command: ["./Run serve --release --env=production"]
+
+    proxy:
+        links:
+            - cftr-api:app

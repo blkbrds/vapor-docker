@@ -1,0 +1,16 @@
+version: '2'
+services:
+    cftr-api-dev:
+        depends_on:
+            - mysql
+        links:
+            - mysql:mysql
+        environment:
+            - MYSQL_HOST=mysql
+            - MYSQL_DATABASE=CFTR
+            - MYSQL_USER=vapor
+            - MYSQL_PASSWORD=vapor@pass
+            - MYSQL_PORT=3306
+        expose:
+            - "8080"
+        command: ["vapor build --release --verbose && vapor run serve --release --env=production"]
