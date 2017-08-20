@@ -9,5 +9,5 @@ dc() {
 };
 
 dc down;
-dc up -d proxy
-dc up --build --remove-orphans cftr-api-dev;
+dc up -d proxy;
+dc up --build cftr-api-dev;

@@ -1,11 +1,12 @@
-FROM vapor-pro
-LABEL name=vapor version=1.0.9-xenial
+FROM daonv/vapor-pro:latest
+LABEL name=daonv/vapor-pro version=latest
 MAINTAINER dao.nguyen@asiantech.vn
 
 ADD ./.build/release/Run /vapor/
 ADD ./.build/release/*.so /vapor/
 COPY ./Config /vapor/Config
 COPY ./Resources /vapor/Resources
+COPY ./Public /vapor/Public
 
 EXPOSE 8080
 
